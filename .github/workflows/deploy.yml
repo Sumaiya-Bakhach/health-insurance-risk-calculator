@@ -1,0 +1,25 @@
+name: Deploy to Azure Storage
+
+on:
+  push:
+    branches:
+      - main  # Change if your branch is different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Upload files to Azure Blob Storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az storage blob upload-batch \
+            --account-name ${{ secrets.group7section2 }} \
+            --account-key ${{ secrets.e4r0l/IysAwuAFtfIpCLhoxhJGbsGmgNp0bwfq/P79sRboml8t3OZQHdXRLrX7fv/jLpTXDComjZ+AStlqzvTA== }} \
+            --destination website \
+            --source . \
+            --overwrite
